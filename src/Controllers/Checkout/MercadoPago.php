@@ -4,6 +4,7 @@ namespace SceLPI\MercadoPago\Controllers\Checkout;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoPaymentRejected;
 
 class MercadoPago extends Controller
 {
@@ -98,7 +99,13 @@ class MercadoPago extends Controller
             ->setUrl('v1/payments')
             ->setJson($cobranca->preparar());
 
-        return $mp->execute();
+        $pedido = $mp->execute();
+
+        if ( $pedido->status == "rejected" ) {
+            throw new MercadoPagoPaymentRejected($pedido);
+        }
+
+        return $pedido;
     }
 
     public function estorno($gatewayId)
