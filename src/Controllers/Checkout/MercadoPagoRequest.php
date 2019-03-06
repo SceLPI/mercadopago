@@ -167,7 +167,7 @@ class MercadoPagoRequest {
             if (!env('MP_APP') ||
                 !env('MP_KEY') ||
                 !env('MP_TOKEN') ) {
-                throw new MercadoPagoNotConfiguredException("Do you have configured the MercadoPago vars on ENV? (MP_SANDBOX_APP, MP_SANDBOX_KEY, MP_SANDBOX_TOKEN)");
+                throw new MercadoPagoNotConfiguredException("Do you have configured the MercadoPago vars on ENV? (MP_APP, MP_KEY, MP_TOKEN)");
             }
             $this->application = env('MP_APP');
             $this->key = env('MP_KEY');
