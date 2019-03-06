@@ -1,0 +1,37 @@
+{
+    "name": "scelpi/mercadopago",
+    "description": "Wrapper para utilizar a API do MercadoPago.",
+    "keywords": ["mercadopago", "api", "wrapper", "laravel", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luiz Eduardo Campos Soares",
+            "email": "l.eduardosoares@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7",
+        "composer/composer": "^1.6"
+    },
+    "require-dev": {
+        "illuminate/config": "^5.1,<5.9",
+        "phpunit/phpunit" : "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SceLPI\\MercadoPago\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SceLPI\\MercadoPago\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SceLPI\\MercadoPago\\MercadoPagoServiceProvider"
+            ]
+        }
+    }
+}
