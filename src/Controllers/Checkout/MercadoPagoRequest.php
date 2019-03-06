@@ -2,11 +2,11 @@
 
 namespace SceLPI\MercadoPago\Controllers\Checkout;
 
-use App\Http\Controllers\Api\Checkout\Exceptions\MercadoPagoInvalidMethodCalledException;
-use App\Http\Controllers\Api\Checkout\Exceptions\MercadoPagoNotConfiguredException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoInvalidMethodCalledException;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoNotConfiguredException;
 
 class MercadoPagoRequest {
 
