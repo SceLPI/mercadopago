@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": ">=7",
-        "composer/composer": "^1.6"
+        "composer/composer": "^1.6",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "illuminate/config": "^5.1,<5.9",
