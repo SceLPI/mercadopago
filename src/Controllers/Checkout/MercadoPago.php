@@ -4,6 +4,7 @@ namespace SceLPI\MercadoPago\Controllers\Checkout;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoFalhaNoEstorno;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoPaymentRejected;
 
 class MercadoPago extends Controller
@@ -110,10 +111,16 @@ class MercadoPago extends Controller
 
     public function estorno($gatewayId)
     {
-        return (new MercadoPagoRequest(false))
+        $retorno = (new MercadoPagoRequest(false))
             ->setMethod('POST')
             ->setUrl('v1/payments/' . $gatewayId . '/refunds')
             ->execute();
+
+        if ( $retorno && property_exists($retorno, 'error') ) {
+            throw new MercadoPagoFalhaNoEstorno($retorno);
+        }
+
+        return $retorno;
     }
 
 }
