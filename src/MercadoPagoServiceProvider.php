@@ -13,8 +13,4 @@ class MercadoPagoServiceProvider extends ServiceProvider
      */
     protected $defer = true;
 
-    public function boot()
-    {
-        dd("aaa");
-    }
 }
