@@ -4,6 +4,7 @@ namespace SceLPI\MercadoPago\Controllers\Checkout;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoCreditCardRegistrationFailed;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoFalhaNoEstorno;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoPaymentRejected;
 
@@ -56,20 +57,32 @@ class MercadoPago extends Controller
 
     public function criarTokenDoCartao(CartaoMercadoPago $cartaoMercadoPago)
     {
-        return (new MercadoPagoRequest)
+        $retorno = (new MercadoPagoRequest)
             ->setMethod('POST')
             ->setUrl('v1/card_tokens')
             ->setJson($cartaoMercadoPago->preparar())
             ->execute();
+
+        if ($retorno && property_exists($retorno, 'error')) {
+            throw new MercadoPagoCreditCardRegistrationFailed($retorno);
+        }
+
+        return $retorno;
     }
 
     public function anexarCartaoAoCliente(ClienteMercadoPago $clienteMercadoPago, TokenCartaoMercadoPago $tokenCartaoMercadoPago)
     {
-        return (new MercadoPagoRequest)
+        $retorno = (new MercadoPagoRequest)
             ->setMethod('POST')
             ->setUrl('v1/customers/' . $clienteMercadoPago->getId() . '/cards')
             ->setJson($tokenCartaoMercadoPago->preparar())
             ->execute();
+
+        if ($retorno && property_exists($retorno, 'error')) {
+            throw new MercadoPagoCreditCardRegistrationFailed($retorno);
+        }
+
+        return $retorno;
     }
 
     public function buscarCartoesSalvos(ClienteMercadoPago $clienteMercadoPago)
