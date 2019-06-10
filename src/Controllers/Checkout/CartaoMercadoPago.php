@@ -20,6 +20,8 @@ class CartaoMercadoPago {
     private $codigoDeSeguranca;
     /** @var string */
     private $cpf;
+    /** @var string */
+    private $cnpj;
 
     public function __construct(Request $request = null)
     {
@@ -38,6 +40,7 @@ class CartaoMercadoPago {
         $this->mes = array_key_exists('validade_mes', $dadosCartao) ? $dadosCartao['validade_mes'] : null;
         $this->nome = array_key_exists('nome', $dadosCartao) ? $dadosCartao['nome'] : null;
         $this->cpf = preg_replace("/\D/", "", array_key_exists('cpf', $dadosCartao) ? $dadosCartao['cpf'] : null);
+        $this->cnpj = preg_replace("/\D/", "", array_key_exists('cnpj', $dadosCartao) ? $dadosCartao['cnpj'] : null);
         $this->codigoDeSeguranca = array_key_exists('codigo_seguranca', $dadosCartao) ? $dadosCartao['codigo_seguranca'] : null;
 
     }
@@ -120,6 +123,16 @@ class CartaoMercadoPago {
         return $this;
     }
 
+    /**
+     * @param mixed $cpf
+     * @return cartaoMercadoPago
+     */
+    public function setCnpj(string $cnpj): CartaoMercadoPago
+    {
+        $this->cnpj = $cnpj;
+        return $this;
+    }
+
     public function preparar() {
         if ( $this->getId() ) {
             return [
@@ -134,8 +147,8 @@ class CartaoMercadoPago {
             "cardholder" => [
                 "name" => $this->nome,
                 "identification" => [
-                    "type" => "CPF",
-                    "number" => preg_replace("/\D/", "", $this->cpf)
+                    "type" => $this->cpf ? "CPF" : $this->cnpj ? "CNPJ" : "",
+                    "number" => preg_replace("/\D/", "", $this->cpf ?: $this->cnpj ?: 0)
                 ]
             ],
             "security_code" => $this->codigoDeSeguranca . ""

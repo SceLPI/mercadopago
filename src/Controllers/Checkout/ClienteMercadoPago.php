@@ -17,6 +17,8 @@ class ClienteMercadoPago {
     /** @var string  */
     private $cpf = "";
     /** @var string  */
+    private $cnpj = "";
+    /** @var string  */
     private $identificadorInterno = "";
     /** @var string  */
     private $email = "";
@@ -35,6 +37,7 @@ class ClienteMercadoPago {
         $this->ultimoNome = $request->get('ultimo_nome');
         $this->telefone = $request->get('telefone');
         $this->cpf = $request->get('cpf');
+        $this->cnpj = $request->get('cnpj');
         $this->identificadorInterno = $request->get('identificador_interno');
     }
 
@@ -137,6 +140,24 @@ class ClienteMercadoPago {
     }
 
     /**
+     * @param string $cnpj
+     * @return ClienteMercadoPago
+     */
+    public function setCnpj(string $cnpj): ClienteMercadoPago
+    {
+        $this->cnpj = $cnpj;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCnpj(): string
+    {
+        return $this->cnpj;
+    }
+
+    /**
      * @param string $identificadorInterno
      * @return ClienteMercadoPago
      */
@@ -186,8 +207,8 @@ class ClienteMercadoPago {
                 "number" => $this->getTelefoneNumero()
             ],
             "identification" => [
-                "type" => 'CPF',
-                "number" => $this->getCpf()
+                "type" => $this->getCpf() ? 'CPF' : $this->getCnpj() ? 'CNPJ' : "",
+                "number" => $this->getCpf() ?: $this->getCnpj() ?: 0
             ],
             "description" => $this->getIdentificadorInterno()
         ];
