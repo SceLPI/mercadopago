@@ -163,7 +163,7 @@ class CobrancaMercadoPago {
         if ( count($this->getItems()) ) {
             $return['transaction_amount'] = 0;
             foreach( $this->getItems() as $item) {
-                $return['transaction_amount'] += $item->totalAmmount();
+                $return['transaction_amount'] += $item->getValorTotal();
             }
         } else {
             $return['transaction_amount'] = $this->getValor();

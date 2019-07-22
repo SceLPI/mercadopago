@@ -32,7 +32,7 @@ class ItemCobrancaMercadoPago {
      * @param int $descricao
      * @return ItemCobrancaMercadoPago
      */
-    public function setDescricao(int $descricao): ItemCobrancaMercadoPago
+    public function setDescricao(string $descricao): ItemCobrancaMercadoPago
     {
         $this->descricao = $descricao;
         return $this;
