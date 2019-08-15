@@ -147,7 +147,7 @@ class CartaoMercadoPago {
             "cardholder" => [
                 "name" => $this->nome,
                 "identification" => [
-                    "type" => $this->cpf ? "CPF" : $this->cnpj ? "CNPJ" : "",
+                    "type" => (!empty($this->cpf) ? "CPF" : (!empty($this->cnpj) ? "CNPJ" : "")),
                     "number" => preg_replace("/\D/", "", $this->cpf ?: $this->cnpj ?: 0)
                 ]
             ],

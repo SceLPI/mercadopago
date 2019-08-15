@@ -9,6 +9,9 @@ class MercadoPagoCreditCardRegistrationFailed extends \Exception {
     public function __construct($response)
     {
         $error = json_decode($response->error)->cause[0];
+        if (is_array($error)) {
+            $error = $error[0];
+        }
         $this->message = "Código do erro: " . $error->code . ". ";
         switch( $error->code ) {
             case "E204":
@@ -17,7 +20,6 @@ class MercadoPagoCreditCardRegistrationFailed extends \Exception {
             case "E205":
                 $this->message .= "Ano de expiração inválido.";
                 break;
-
             case "100":
                 $this->message .= "Credenciais MP Inválidas.";
 	            break;
@@ -82,6 +84,9 @@ class MercadoPagoCreditCardRegistrationFailed extends \Exception {
             case "140":
                 $this->message .= "Dados do dono do cartão inválido.";
 	            break;
+            case "card-106":
+                $this->message .= "Documento inválido";
+                break;
             default:
                 $this->message .= "Não foi possível salvar o cartão. " . $error->description;
                 break;
