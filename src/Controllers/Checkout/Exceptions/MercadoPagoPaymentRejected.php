@@ -30,8 +30,10 @@ class MercadoPagoPaymentRejected extends \Exception {
                 break;
             case "cc_rejected_other_reason":
             case "cc_rejected_card_error":
+                $this->message = "Seu pedido foi recusado: Não foi possível processar o pagamento.";
+                break;
             case "cc_rejected_call_for_authorize":
-                $this->message = "Seu pedido foi recusado: Operadora do cartão recusou o pagamento por motivo desconhecido.";
+                $this->message = "Seu pedido foi recusado: O cliente precisa autorizar Mercado Pago com forma de pagamento.";
                 break;
             case "cc_rejected_card_disabled":
                 $this->message = "Seu pedido foi recusado: Seu cartão não está ativo.";
@@ -52,7 +54,7 @@ class MercadoPagoPaymentRejected extends \Exception {
                 $this->message = "Seu pedido foi recusado: Número de tentativas de pagamento excedida.";
                 break;
             default:
-                $this->message = "Seu pedido foi recusado: Operadora do cartão recusou o pagamento por motivo desconhecido.";
+                $this->message = "Seu pedido foi recusado: Motivo desconhecido ({$response->status_detail})";
                 break;
 
         }

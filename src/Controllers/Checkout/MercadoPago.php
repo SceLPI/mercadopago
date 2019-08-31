@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoCreditCardRegistrationFailed;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoFalhaNoEstorno;
+use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoPaymentFailed;
 use SceLPI\MercadoPago\Controllers\Checkout\Exceptions\MercadoPagoPaymentRejected;
 
 class MercadoPago extends Controller
@@ -114,6 +115,10 @@ class MercadoPago extends Controller
             ->setJson($cobranca->preparar());
 
         $pedido = $mp->execute();
+
+        if ( $pedido && property_exists($pedido, 'error') ) {
+            throw new MercadoPagoPaymentFailed($pedido);
+        }
 
         if ( $pedido->status == "rejected" ) {
             throw new MercadoPagoPaymentRejected($pedido);

@@ -85,7 +85,7 @@ class MercadoPagoCreditCardRegistrationFailed extends \Exception {
                 $this->message .= "Dados do dono do cartão inválido.";
 	            break;
             case "card-106":
-                $this->message .= "Documento inválido";
+                $this->message .= "Nome no cartão inválido.";
                 break;
             default:
                 $this->message .= "Não foi possível salvar o cartão. " . $error->description;
